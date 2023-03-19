@@ -111,6 +111,7 @@ invariant "Elected leader has highest UID among participants"
 end;
 
 
+
 invariant "only one leader"
   forall i: UIDs do
     forall j: UIDs do 
