@@ -1,8 +1,8 @@
 const
-  N: 6;
+  N: 2;
 type
   UIDs: 1..N;
-  MsgTypes: enum {EMPTY, SEND_ELECT, RECV_ELEC, ELECTED};
+  MsgTypes: enum {EMPTY, ELECTION, ELECTED};
   NodeStates: enum {PARTICIPANT, NON_PARTICIPANT};
   Msg: record
     mtype: MsgTypes;
@@ -17,9 +17,8 @@ var
     elected:UIDs;        
   end;
   channel: Array [UIDs] of Msg; 
-  hasLeader: Boolean;
   leaderUID: UIDs;
-  election_done: Boolean; 
+  startElection: Boolean;
 
 startstate "Init"
 for i: UIDs do
@@ -29,47 +28,45 @@ for i: UIDs do
     undefine p[i].elected;
     channel[i].mtype := EMPTY;
     undefine channel[i].elected;
+    startElection := false;
   end;
-hasLeader := false;
-election_done := false;
 undefine leaderUID;
 endstartstate;
 
 
 ruleset i: UIDs do
   rule "Initiate election"
-  hasLeader = false & p[i].state = NON_PARTICIPANT & channel[i].mtype = EMPTY
+  p[i].state = NON_PARTICIPANT & channel[i].mtype = EMPTY & startElection = false
   ==>
   p[i].state := PARTICIPANT;
-  channel[i].mtype := SEND_ELECT;
-  channel[(i%N) + 1].mtype := RECV_ELEC;
+  channel[(i%N) + 1].mtype := ELECTION;
   channel[i].elected := i;
   channel[(i%N) + 1].elected := channel[i].elected;
+  startElection := true;
   endrule;
 endruleset;
 
 ruleset i: UIDs do
   rule "Election Message Received"
-    channel[i].mtype = RECV_ELEC | channel[i].mtype = SEND_ELECT
+    channel[i].mtype = ELECTION & p[i].isLeader = false
   ==>
     if channel[i].elected > p[i].UID then
         p[i].state := PARTICIPANT;
-        channel[i].mtype := SEND_ELECT;
-        channel[(i%N) + 1].mtype := RECV_ELEC;
+        channel[(i%N) + 1].mtype := ELECTION;
         channel[(i%N) + 1].elected := channel[i].elected;
-    elsif channel[i].elected < p[i].UID & p[i].state=NON_PARTICIPANT  then
+    elsif channel[i].elected < p[i].UID then
         p[i].state := PARTICIPANT;
-        channel[i].mtype := SEND_ELECT;
         channel[i].elected := i;
-        channel[(i%N) + 1].mtype := RECV_ELEC;
+        channel[(i%N) + 1].mtype := ELECTION;
         channel[(i%N) + 1].elected := channel[i].elected;
-    elsif channel[i].elected = p[i].UID & channel[i].mtype = RECV_ELEC & hasLeader = false then
-        hasLeader := true;
-        leaderUID := i;
-        p[i].isLeader := true;
-        p[i].elected := i;
-        channel[i].mtype := ELECTED;
-        channel[i].elected := i;
+    elsif channel[i].elected = p[i].UID & channel[i].mtype = ELECTION then
+      leaderUID := i;
+      p[i].isLeader := true;
+      p[i].elected := leaderUID;
+      channel[i].mtype := ELECTED;
+      channel[i].elected := leaderUID;
+      channel[(i%N) + 1].mtype := ELECTED;
+      channel[(i%N) + 1].elected := leaderUID;
     endif;
   endrule;
 endruleset;
@@ -77,29 +74,46 @@ endruleset;
 
 ruleset i: UIDs do
   rule "Elected Message Received"
-    hasLeader = true & channel[i].mtype!= EMPTY & p[i].state = PARTICIPANT
+    channel[i].mtype = ELECTED & p[i].state = PARTICIPANT & ISUNDEFINED(p[i].elected)
   ==>
     p[i].elected := leaderUID;
-    p[i].state :=NON_PARTICIPANT;
-    channel[i].elected := leaderUID;
-    channel[i].mtype := EMPTY;
-    election_done := true;
+    if p[(i%N)+1].isLeader = true then
+      channel[(i%N) + 1].mtype := EMPTY;
+      undefine channel[(i%N) + 1].elected;
+    else
+      channel[(i%N) + 1].mtype := ELECTED;
+      channel[(i%N) + 1].elected := leaderUID;
+    endif;
   endrule;
 endruleset;
 
 
 ruleset i: UIDs do
   rule "New Leader Discards Elected Message"
-    hasLeader = true & p[i].state = NON_PARTICIPANT & election_done = true
+    (channel[i].mtype = ELECTED & !ISUNDEFINED(p[i].elected)) & (p[i].state = PARTICIPANT) & (channel[leaderUID].mtype = EMPTY)
   ==>
-    if p[i].isLeader = true then
-        p[i].isLeader := false;
-    endif;
+    p[i].state := NON_PARTICIPANT;
     undefine p[i].elected;
+    channel[i].mtype := EMPTY;
     undefine channel[i].elected;
-    election_done := false;
+    undefine leaderUID;
+    if p[(i%N)+1].isLeader = true then
+      p[(i%N)+1].state := NON_PARTICIPANT;
+      p[(i%N)+1].isLeader := false;
+      undefine p[(i%N)+1].elected;
+      startElection := false;
+    endif;
   endrule;
 endruleset;
+
+
+
+invariant "only one leader"
+  forall i: UIDs do
+    forall j: UIDs do 
+      i!=j -> !(p[i].isLeader& p[j].isLeader)
+    end
+end;
 
 
 invariant "Elected leader has highest UID among participants"
@@ -111,10 +125,7 @@ invariant "Elected leader has highest UID among participants"
 end;
 
 
-
-invariant "only one leader"
+invariant "Elected leader has the same UID as global variable leaderUID"
   forall i: UIDs do
-    forall j: UIDs do 
-      i!=j -> !(p[i].isLeader& p[j].isLeader)
-    end
+    p[i].isLeader -> i = leaderUID
 end;
