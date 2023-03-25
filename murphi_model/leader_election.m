@@ -1,7 +1,8 @@
 const
-  N: 2;
+  N: 10;
 type
   UIDs: 1..N;
+  CNT: 0..N;
   MsgTypes: enum {EMPTY, ELECTION, ELECTED};
   NodeStates: enum {PARTICIPANT, NON_PARTICIPANT};
   Msg: record
@@ -18,7 +19,7 @@ var
   end;
   channel: Array [UIDs] of Msg; 
   leaderUID: UIDs;
-  startElection: Boolean;
+  total_PARTICIPANT : CNT;
 
 startstate "Init"
 for i: UIDs do
@@ -28,21 +29,22 @@ for i: UIDs do
     undefine p[i].elected;
     channel[i].mtype := EMPTY;
     undefine channel[i].elected;
-    startElection := false;
   end;
 undefine leaderUID;
+total_PARTICIPANT := 0;
 endstartstate;
 
 
 ruleset i: UIDs do
   rule "Initiate election"
-  p[i].state = NON_PARTICIPANT & channel[i].mtype = EMPTY & startElection = false
+  p[i].state = NON_PARTICIPANT & channel[i].mtype = EMPTY & total_PARTICIPANT = 0
   ==>
   p[i].state := PARTICIPANT;
+  total_PARTICIPANT := total_PARTICIPANT+1;
   channel[(i%N) + 1].mtype := ELECTION;
   channel[i].elected := i;
   channel[(i%N) + 1].elected := channel[i].elected;
-  startElection := true;
+  undefine leaderUID;
   endrule;
 endruleset;
 
@@ -50,16 +52,21 @@ ruleset i: UIDs do
   rule "Election Message Received"
     channel[i].mtype = ELECTION & p[i].isLeader = false
   ==>
+    if p[i].state = NON_PARTICIPANT then
+        total_PARTICIPANT := total_PARTICIPANT+1;
+    endif;
     if channel[i].elected > p[i].UID then
         p[i].state := PARTICIPANT;
+        channel[i].mtype := EMPTY;
         channel[(i%N) + 1].mtype := ELECTION;
         channel[(i%N) + 1].elected := channel[i].elected;
     elsif channel[i].elected < p[i].UID then
         p[i].state := PARTICIPANT;
         channel[i].elected := i;
+        channel[i].mtype := EMPTY;
         channel[(i%N) + 1].mtype := ELECTION;
         channel[(i%N) + 1].elected := channel[i].elected;
-    elsif channel[i].elected = p[i].UID & channel[i].mtype = ELECTION then
+    elsif channel[i].elected = p[i].UID & channel[i].mtype = ELECTION & p[i].state = PARTICIPANT then
       leaderUID := i;
       p[i].isLeader := true;
       p[i].elected := leaderUID;
@@ -93,15 +100,15 @@ ruleset i: UIDs do
     (channel[i].mtype = ELECTED & !ISUNDEFINED(p[i].elected)) & (p[i].state = PARTICIPANT) & (channel[leaderUID].mtype = EMPTY)
   ==>
     p[i].state := NON_PARTICIPANT;
+    total_PARTICIPANT := total_PARTICIPANT-1;
     undefine p[i].elected;
     channel[i].mtype := EMPTY;
     undefine channel[i].elected;
-    undefine leaderUID;
     if p[(i%N)+1].isLeader = true then
       p[(i%N)+1].state := NON_PARTICIPANT;
+      total_PARTICIPANT := total_PARTICIPANT-1;
       p[(i%N)+1].isLeader := false;
       undefine p[(i%N)+1].elected;
-      startElection := false;
     endif;
   endrule;
 endruleset;

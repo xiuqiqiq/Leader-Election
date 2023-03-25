@@ -1,5 +1,5 @@
 /******************************
-  Program "./murphi_model//ivy2m_1.m" compiled by "Caching Murphi Release 5.5.0"
+  Program "./murphi_model//leader_election.m" compiled by "Caching Murphi Release 5.5.0"
 
   Murphi Last Compiled date: "Aug  7 2022"
  ******************************/
@@ -9,8 +9,8 @@
  ********************/
 #define MURPHI_VERSION "Caching Murphi Release 5.5.0"
 #define MURPHI_DATE "Aug  7 2022"
-#define PROTOCOL_NAME "./murphi_model//ivy2m_1"
-#define BITS_IN_WORLD 112
+#define PROTOCOL_NAME "./murphi_model//leader_election"
+#define BITS_IN_WORLD 496
 #define ALIGN
 
 /********************
@@ -27,9 +27,9 @@ class mu_1_UIDs: public mu__byte
  public:
   inline int operator=(int val) { return mu__byte::operator=(val); };
   inline int operator=(const mu_1_UIDs& val) { return mu__byte::operator=((int) val); };
-  mu_1_UIDs (const char *name, int os): mu__byte(1, 2, 2, name, os) {};
-  mu_1_UIDs (void): mu__byte(1, 2, 2) {};
-  mu_1_UIDs (int val): mu__byte(1, 2, 2, "Parameter or function result.", 0)
+  mu_1_UIDs (const char *name, int os): mu__byte(1, 10, 4, name, os) {};
+  mu_1_UIDs (void): mu__byte(1, 10, 4) {};
+  mu_1_UIDs (int val): mu__byte(1, 10, 4, "Parameter or function result.", 0)
   {
     operator=(val);
   };
@@ -47,6 +47,32 @@ class mu_1_UIDs: public mu__byte
 
 /*** end of subrange decl ***/
 mu_1_UIDs mu_1_UIDs_undefined_var;
+
+class mu_1_CNT: public mu__byte
+{
+ public:
+  inline int operator=(int val) { return mu__byte::operator=(val); };
+  inline int operator=(const mu_1_CNT& val) { return mu__byte::operator=((int) val); };
+  mu_1_CNT (const char *name, int os): mu__byte(0, 10, 4, name, os) {};
+  mu_1_CNT (void): mu__byte(0, 10, 4) {};
+  mu_1_CNT (int val): mu__byte(0, 10, 4, "Parameter or function result.", 0)
+  {
+    operator=(val);
+  };
+  char * Name() { return tsprintf("%d",value()); };
+  virtual void Permute(PermSet& Perm, int i);
+  virtual void SimpleCanonicalize(PermSet& Perm);
+  virtual void Canonicalize(PermSet& Perm);
+  virtual void SimpleLimit(PermSet& Perm);
+  virtual void ArrayLimit(PermSet& Perm);
+  virtual void Limit(PermSet& Perm);
+  virtual void MultisetLimit(PermSet& Perm);
+  virtual void MultisetSort() {};
+  void print_statistic() {};
+};
+
+/*** end of subrange decl ***/
+mu_1_CNT mu_1_CNT_undefined_var;
 
 class mu_1_MsgTypes: public mu__byte
 {
@@ -393,7 +419,7 @@ mu_1__type_0 mu_1__type_0_undefined_var;
 class mu_1__type_1
 {
  public:
-  mu_1__type_0 array[ 2 ];
+  mu_1__type_0 array[ 10 ];
  public:
   char *name;
   char longname[BUFFER_SIZE/4];
@@ -406,7 +432,7 @@ class mu_1__type_1
   mu_1__type_0& operator[] (int index) /* const */
   {
 #ifndef NO_RUN_TIME_CHECKING
-    if ( ( index >= 1 ) && ( index <= 2 ) )
+    if ( ( index >= 1 ) && ( index <= 10 ) )
       return array[ index - 1 ];
     else {
       if (index==UNDEFVAL) 
@@ -421,7 +447,7 @@ class mu_1__type_1
   };
   mu_1__type_1& operator= (const mu_1__type_1& from)
   {
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 10; i++)
       array[i] = from.array[i];
     return *this;
   }
@@ -429,7 +455,7 @@ class mu_1__type_1
 friend int CompareWeight(mu_1__type_1& a, mu_1__type_1& b)
   {
     int w;
-    for (int i=0; i<2; i++) {
+    for (int i=0; i<10; i++) {
       w = CompareWeight(a.array[i], b.array[i]);
       if (w!=0) return w;
     }
@@ -438,7 +464,7 @@ friend int CompareWeight(mu_1__type_1& a, mu_1__type_1& b)
 friend int Compare(mu_1__type_1& a, mu_1__type_1& b)
   {
     int w;
-    for (int i=0; i<2; i++) {
+    for (int i=0; i<10; i++) {
       w = Compare(a.array[i], b.array[i]);
       if (w!=0) return w;
     }
@@ -453,34 +479,34 @@ friend int Compare(mu_1__type_1& a, mu_1__type_1& b)
   virtual void MultisetLimit(PermSet& Perm);
   virtual void MultisetSort()
   {
-    for (int i=0; i<2; i++)
+    for (int i=0; i<10; i++)
       array[i].MultisetSort();
   }
   void print_statistic()
   {
-    for (int i=0; i<2; i++)
+    for (int i=0; i<10; i++)
       array[i].print_statistic();
   }
-  void clear() { for (int i = 0; i < 2; i++) array[i].clear(); };
+  void clear() { for (int i = 0; i < 10; i++) array[i].clear(); };
 
-  void undefine() { for (int i = 0; i < 2; i++) array[i].undefine(); };
+  void undefine() { for (int i = 0; i < 10; i++) array[i].undefine(); };
 
-  void reset() { for (int i = 0; i < 2; i++) array[i].reset(); };
+  void reset() { for (int i = 0; i < 10; i++) array[i].reset(); };
 
   void to_state(state *thestate)
   {
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 10; i++)
       array[i].to_state(thestate);
   };
 
   void print()
   {
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 10; i++)
       array[i].print(); };
 
   void print_diff(state *prevstate)
   {
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 10; i++)
       array[i].print_diff(prevstate);
   };
 };
@@ -505,7 +531,7 @@ void mu_1__type_1::set_self( const char *n, int os)
 {
   char* s;
   name = (char *)n;
-  for(int i = 0; i < 2; i++) {
+  for(int i = 0; i < 10; i++) {
     array[i].set_self_ar(n, s=tsprintf("%d",i + 1), i * 32 + os);
     delete[] s;
   }
@@ -519,7 +545,7 @@ mu_1__type_1 mu_1__type_1_undefined_var;
 class mu_1__type_2
 {
  public:
-  mu_1_Msg array[ 2 ];
+  mu_1_Msg array[ 10 ];
  public:
   char *name;
   char longname[BUFFER_SIZE/4];
@@ -532,7 +558,7 @@ class mu_1__type_2
   mu_1_Msg& operator[] (int index) /* const */
   {
 #ifndef NO_RUN_TIME_CHECKING
-    if ( ( index >= 1 ) && ( index <= 2 ) )
+    if ( ( index >= 1 ) && ( index <= 10 ) )
       return array[ index - 1 ];
     else {
       if (index==UNDEFVAL) 
@@ -547,7 +573,7 @@ class mu_1__type_2
   };
   mu_1__type_2& operator= (const mu_1__type_2& from)
   {
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 10; i++)
       array[i] = from.array[i];
     return *this;
   }
@@ -555,7 +581,7 @@ class mu_1__type_2
 friend int CompareWeight(mu_1__type_2& a, mu_1__type_2& b)
   {
     int w;
-    for (int i=0; i<2; i++) {
+    for (int i=0; i<10; i++) {
       w = CompareWeight(a.array[i], b.array[i]);
       if (w!=0) return w;
     }
@@ -564,7 +590,7 @@ friend int CompareWeight(mu_1__type_2& a, mu_1__type_2& b)
 friend int Compare(mu_1__type_2& a, mu_1__type_2& b)
   {
     int w;
-    for (int i=0; i<2; i++) {
+    for (int i=0; i<10; i++) {
       w = Compare(a.array[i], b.array[i]);
       if (w!=0) return w;
     }
@@ -579,34 +605,34 @@ friend int Compare(mu_1__type_2& a, mu_1__type_2& b)
   virtual void MultisetLimit(PermSet& Perm);
   virtual void MultisetSort()
   {
-    for (int i=0; i<2; i++)
+    for (int i=0; i<10; i++)
       array[i].MultisetSort();
   }
   void print_statistic()
   {
-    for (int i=0; i<2; i++)
+    for (int i=0; i<10; i++)
       array[i].print_statistic();
   }
-  void clear() { for (int i = 0; i < 2; i++) array[i].clear(); };
+  void clear() { for (int i = 0; i < 10; i++) array[i].clear(); };
 
-  void undefine() { for (int i = 0; i < 2; i++) array[i].undefine(); };
+  void undefine() { for (int i = 0; i < 10; i++) array[i].undefine(); };
 
-  void reset() { for (int i = 0; i < 2; i++) array[i].reset(); };
+  void reset() { for (int i = 0; i < 10; i++) array[i].reset(); };
 
   void to_state(state *thestate)
   {
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 10; i++)
       array[i].to_state(thestate);
   };
 
   void print()
   {
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 10; i++)
       array[i].print(); };
 
   void print_diff(state *prevstate)
   {
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 10; i++)
       array[i].print_diff(prevstate);
   };
 };
@@ -631,7 +657,7 @@ void mu_1__type_2::set_self( const char *n, int os)
 {
   char* s;
   name = (char *)n;
-  for(int i = 0; i < 2; i++) {
+  for(int i = 0; i < 10; i++) {
     array[i].set_self_ar(n, s=tsprintf("%d",i + 1), i * 16 + os);
     delete[] s;
   }
@@ -642,7 +668,7 @@ mu_1__type_2::~mu_1__type_2()
 /*** end array declaration ***/
 mu_1__type_2 mu_1__type_2_undefined_var;
 
-const int mu_N = 2;
+const int mu_N = 10;
 const int mu_EMPTY = 1;
 const int mu_ELECTION = 2;
 const int mu_ELECTED = 3;
@@ -652,13 +678,13 @@ const int mu_NON_PARTICIPANT = 5;
 mu_1__type_1 mu_p("p",0);
 
 /*** Variable declaration ***/
-mu_1__type_2 mu_channel("channel",64);
+mu_1__type_2 mu_channel("channel",320);
 
 /*** Variable declaration ***/
-mu_1_UIDs mu_leaderUID("leaderUID",96);
+mu_1_UIDs mu_leaderUID("leaderUID",480);
 
 /*** Variable declaration ***/
-mu_0_boolean mu_startElection("startElection",104);
+mu_1_CNT mu_total_PARTICIPANT("total_PARTICIPANT",488);
 
 
 
@@ -672,21 +698,21 @@ void world_class::clear()
   mu_p.clear();
   mu_channel.clear();
   mu_leaderUID.clear();
-  mu_startElection.clear();
+  mu_total_PARTICIPANT.clear();
 }
 void world_class::undefine()
 {
   mu_p.undefine();
   mu_channel.undefine();
   mu_leaderUID.undefine();
-  mu_startElection.undefine();
+  mu_total_PARTICIPANT.undefine();
 }
 void world_class::reset()
 {
   mu_p.reset();
   mu_channel.reset();
   mu_leaderUID.reset();
-  mu_startElection.reset();
+  mu_total_PARTICIPANT.reset();
 }
 void world_class::print()
 {
@@ -696,7 +722,7 @@ void world_class::print()
   mu_p.print();
   mu_channel.print();
   mu_leaderUID.print();
-  mu_startElection.print();
+  mu_total_PARTICIPANT.print();
     num_calls--;
 }
 }
@@ -708,7 +734,7 @@ void world_class::print_statistic()
   mu_p.print_statistic();
   mu_channel.print_statistic();
   mu_leaderUID.print_statistic();
-  mu_startElection.print_statistic();
+  mu_total_PARTICIPANT.print_statistic();
     num_calls--;
 }
 }
@@ -719,7 +745,7 @@ void world_class::print_diff( state *prevstate )
     mu_p.print_diff(prevstate);
     mu_channel.print_diff(prevstate);
     mu_leaderUID.print_diff(prevstate);
-    mu_startElection.print_diff(prevstate);
+    mu_total_PARTICIPANT.print_diff(prevstate);
   }
   else
 print();
@@ -729,7 +755,7 @@ void world_class::to_state(state *newstate)
   mu_p.to_state( newstate );
   mu_channel.to_state( newstate );
   mu_leaderUID.to_state( newstate );
-  mu_startElection.to_state( newstate );
+  mu_total_PARTICIPANT.to_state( newstate );
 }
 void world_class::setstate(state *thestate)
 {
@@ -750,15 +776,15 @@ public:
   char * Name(unsigned r)
   {
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
     return tsprintf("New Leader Discards Elected Message, i:%s", mu_i.Name());
   }
   bool Condition(unsigned r)
   {
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
 bool mu__boolexpr3;
 bool mu__boolexpr4;
 bool mu__boolexpr5;
@@ -781,9 +807,9 @@ bool mu__boolexpr5;
   {
     unsigned r = what_rule - 0;
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
-    while (what_rule < 2 )
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
+    while (what_rule < 10 )
       {
 	if ( ( TRUE  ) ) {
 bool mu__boolexpr6;
@@ -813,27 +839,27 @@ bool mu__boolexpr8;
 	else
 	  what_rule += 1;
     r = what_rule - 0;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
     }
   }
 
   void Code(unsigned r)
   {
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
 mu_p[mu_i].mu_state = mu_NON_PARTICIPANT;
+mu_total_PARTICIPANT = (mu_total_PARTICIPANT) - (1);
 mu_p[mu_i].mu_elected.undefine();
 mu_channel[mu_i].mu_mtype = mu_EMPTY;
 mu_channel[mu_i].mu_elected.undefine();
-mu_leaderUID.undefine();
 if ( (mu_p[((mu_i) % (mu_N)) + (1)].mu_isLeader) == (mu_true) )
 {
 mu_p[((mu_i) % (mu_N)) + (1)].mu_state = mu_NON_PARTICIPANT;
+mu_total_PARTICIPANT = (mu_total_PARTICIPANT) - (1);
 mu_p[((mu_i) % (mu_N)) + (1)].mu_isLeader = mu_false;
 mu_p[((mu_i) % (mu_N)) + (1)].mu_elected.undefine();
-mu_startElection = mu_false;
 }
   };
 
@@ -849,15 +875,15 @@ public:
   char * Name(unsigned r)
   {
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
     return tsprintf("Elected Message Received, i:%s", mu_i.Name());
   }
   bool Condition(unsigned r)
   {
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
 bool mu__boolexpr9;
 bool mu__boolexpr10;
   if (!((mu_channel[mu_i].mu_mtype) == (mu_ELECTED))) mu__boolexpr10 = FALSE ;
@@ -873,11 +899,11 @@ bool mu__boolexpr10;
 
   void NextRule(unsigned & what_rule)
   {
-    unsigned r = what_rule - 2;
+    unsigned r = what_rule - 10;
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
-    while (what_rule < 4 )
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
+    while (what_rule < 20 )
       {
 	if ( ( TRUE  ) ) {
 bool mu__boolexpr11;
@@ -901,17 +927,17 @@ bool mu__boolexpr12;
 	}
 	else
 	  what_rule += 1;
-    r = what_rule - 2;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    r = what_rule - 10;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
     }
   }
 
   void Code(unsigned r)
   {
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
 if (mu_leaderUID.isundefined())
   mu_p[mu_i].mu_elected.undefine();
 else
@@ -943,15 +969,15 @@ public:
   char * Name(unsigned r)
   {
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
     return tsprintf("Election Message Received, i:%s", mu_i.Name());
   }
   bool Condition(unsigned r)
   {
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
 bool mu__boolexpr13;
   if (!((mu_channel[mu_i].mu_mtype) == (mu_ELECTION))) mu__boolexpr13 = FALSE ;
   else {
@@ -962,11 +988,11 @@ bool mu__boolexpr13;
 
   void NextRule(unsigned & what_rule)
   {
-    unsigned r = what_rule - 4;
+    unsigned r = what_rule - 20;
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
-    while (what_rule < 6 )
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
+    while (what_rule < 30 )
       {
 	if ( ( TRUE  ) ) {
 bool mu__boolexpr14;
@@ -985,20 +1011,25 @@ bool mu__boolexpr14;
 	}
 	else
 	  what_rule += 1;
-    r = what_rule - 4;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    r = what_rule - 20;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
     }
   }
 
   void Code(unsigned r)
   {
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
+if ( (mu_p[mu_i].mu_state) == (mu_NON_PARTICIPANT) )
+{
+mu_total_PARTICIPANT = (mu_total_PARTICIPANT) + (1);
+}
 if ( (mu_channel[mu_i].mu_elected) > (mu_p[mu_i].mu_UID) )
 {
 mu_p[mu_i].mu_state = mu_PARTICIPANT;
+mu_channel[mu_i].mu_mtype = mu_EMPTY;
 mu_channel[((mu_i) % (mu_N)) + (1)].mu_mtype = mu_ELECTION;
 mu_channel[((mu_i) % (mu_N)) + (1)].mu_elected = mu_channel[mu_i].mu_elected;
 }
@@ -1008,15 +1039,21 @@ if ( (mu_channel[mu_i].mu_elected) < (mu_p[mu_i].mu_UID) )
 {
 mu_p[mu_i].mu_state = mu_PARTICIPANT;
 mu_channel[mu_i].mu_elected = mu_i;
+mu_channel[mu_i].mu_mtype = mu_EMPTY;
 mu_channel[((mu_i) % (mu_N)) + (1)].mu_mtype = mu_ELECTION;
 mu_channel[((mu_i) % (mu_N)) + (1)].mu_elected = mu_channel[mu_i].mu_elected;
 }
 else
 {
 bool mu__boolexpr15;
-  if (!((mu_channel[mu_i].mu_elected) == (mu_p[mu_i].mu_UID))) mu__boolexpr15 = FALSE ;
+bool mu__boolexpr16;
+  if (!((mu_channel[mu_i].mu_elected) == (mu_p[mu_i].mu_UID))) mu__boolexpr16 = FALSE ;
   else {
-  mu__boolexpr15 = ((mu_channel[mu_i].mu_mtype) == (mu_ELECTION)) ; 
+  mu__boolexpr16 = ((mu_channel[mu_i].mu_mtype) == (mu_ELECTION)) ; 
+}
+  if (!(mu__boolexpr16)) mu__boolexpr15 = FALSE ;
+  else {
+  mu__boolexpr15 = ((mu_p[mu_i].mu_state) == (mu_PARTICIPANT)) ; 
 }
 if ( mu__boolexpr15 )
 {
@@ -1053,48 +1090,48 @@ public:
   char * Name(unsigned r)
   {
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
     return tsprintf("Initiate election, i:%s", mu_i.Name());
   }
   bool Condition(unsigned r)
   {
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
-bool mu__boolexpr16;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
 bool mu__boolexpr17;
-  if (!((mu_p[mu_i].mu_state) == (mu_NON_PARTICIPANT))) mu__boolexpr17 = FALSE ;
+bool mu__boolexpr18;
+  if (!((mu_p[mu_i].mu_state) == (mu_NON_PARTICIPANT))) mu__boolexpr18 = FALSE ;
   else {
-  mu__boolexpr17 = ((mu_channel[mu_i].mu_mtype) == (mu_EMPTY)) ; 
+  mu__boolexpr18 = ((mu_channel[mu_i].mu_mtype) == (mu_EMPTY)) ; 
 }
-  if (!(mu__boolexpr17)) mu__boolexpr16 = FALSE ;
+  if (!(mu__boolexpr18)) mu__boolexpr17 = FALSE ;
   else {
-  mu__boolexpr16 = ((mu_startElection) == (mu_false)) ; 
+  mu__boolexpr17 = ((mu_total_PARTICIPANT) == (0)) ; 
 }
-    return mu__boolexpr16;
+    return mu__boolexpr17;
   }
 
   void NextRule(unsigned & what_rule)
   {
-    unsigned r = what_rule - 6;
+    unsigned r = what_rule - 30;
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
-    while (what_rule < 8 )
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
+    while (what_rule < 40 )
       {
 	if ( ( TRUE  ) ) {
-bool mu__boolexpr18;
 bool mu__boolexpr19;
-  if (!((mu_p[mu_i].mu_state) == (mu_NON_PARTICIPANT))) mu__boolexpr19 = FALSE ;
+bool mu__boolexpr20;
+  if (!((mu_p[mu_i].mu_state) == (mu_NON_PARTICIPANT))) mu__boolexpr20 = FALSE ;
   else {
-  mu__boolexpr19 = ((mu_channel[mu_i].mu_mtype) == (mu_EMPTY)) ; 
+  mu__boolexpr20 = ((mu_channel[mu_i].mu_mtype) == (mu_EMPTY)) ; 
 }
-  if (!(mu__boolexpr19)) mu__boolexpr18 = FALSE ;
+  if (!(mu__boolexpr20)) mu__boolexpr19 = FALSE ;
   else {
-  mu__boolexpr18 = ((mu_startElection) == (mu_false)) ; 
+  mu__boolexpr19 = ((mu_total_PARTICIPANT) == (0)) ; 
 }
-	      if (mu__boolexpr18) {
+	      if (mu__boolexpr19) {
 		if ( ( TRUE  ) )
 		  return;
 		else
@@ -1105,22 +1142,23 @@ bool mu__boolexpr19;
 	}
 	else
 	  what_rule += 1;
-    r = what_rule - 6;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    r = what_rule - 30;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
     }
   }
 
   void Code(unsigned r)
   {
     static mu_1_UIDs mu_i;
-    mu_i.value((r % 2) + 1);
-    r = r / 2;
+    mu_i.value((r % 10) + 1);
+    r = r / 10;
 mu_p[mu_i].mu_state = mu_PARTICIPANT;
+mu_total_PARTICIPANT = (mu_total_PARTICIPANT) + (1);
 mu_channel[((mu_i) % (mu_N)) + (1)].mu_mtype = mu_ELECTION;
 mu_channel[mu_i].mu_elected = mu_i;
 mu_channel[((mu_i) % (mu_N)) + (1)].mu_elected = mu_channel[mu_i].mu_elected;
-mu_startElection = mu_true;
+mu_leaderUID.undefine();
   };
 
 };
@@ -1134,57 +1172,57 @@ public:
 void SetNextEnabledRule(unsigned & what_rule)
 {
   category = CONDITION;
-  if (what_rule<2)
+  if (what_rule<10)
     { R0.NextRule(what_rule);
-      if (what_rule<2) return; }
-  if (what_rule>=2 && what_rule<4)
+      if (what_rule<10) return; }
+  if (what_rule>=10 && what_rule<20)
     { R1.NextRule(what_rule);
-      if (what_rule<4) return; }
-  if (what_rule>=4 && what_rule<6)
+      if (what_rule<20) return; }
+  if (what_rule>=20 && what_rule<30)
     { R2.NextRule(what_rule);
-      if (what_rule<6) return; }
-  if (what_rule>=6 && what_rule<8)
+      if (what_rule<30) return; }
+  if (what_rule>=30 && what_rule<40)
     { R3.NextRule(what_rule);
-      if (what_rule<8) return; }
+      if (what_rule<40) return; }
 }
 bool Condition(unsigned r)
 {
   category = CONDITION;
-  if (r<=1) return R0.Condition(r-0);
-  if (r>=2 && r<=3) return R1.Condition(r-2);
-  if (r>=4 && r<=5) return R2.Condition(r-4);
-  if (r>=6 && r<=7) return R3.Condition(r-6);
+  if (r<=9) return R0.Condition(r-0);
+  if (r>=10 && r<=19) return R1.Condition(r-10);
+  if (r>=20 && r<=29) return R2.Condition(r-20);
+  if (r>=30 && r<=39) return R3.Condition(r-30);
 Error.Notrace("Internal: NextStateGenerator -- checking condition for nonexisting rule.");
 return 0;}
 void Code(unsigned r)
 {
-  if (r<=1) { R0.Code(r-0); return; } 
-  if (r>=2 && r<=3) { R1.Code(r-2); return; } 
-  if (r>=4 && r<=5) { R2.Code(r-4); return; } 
-  if (r>=6 && r<=7) { R3.Code(r-6); return; } 
+  if (r<=9) { R0.Code(r-0); return; } 
+  if (r>=10 && r<=19) { R1.Code(r-10); return; } 
+  if (r>=20 && r<=29) { R2.Code(r-20); return; } 
+  if (r>=30 && r<=39) { R3.Code(r-30); return; } 
 }
 int Priority(unsigned short r)
 {
-  if (r<=1) { return R0.Priority(); } 
-  if (r>=2 && r<=3) { return R1.Priority(); } 
-  if (r>=4 && r<=5) { return R2.Priority(); } 
-  if (r>=6 && r<=7) { return R3.Priority(); } 
+  if (r<=9) { return R0.Priority(); } 
+  if (r>=10 && r<=19) { return R1.Priority(); } 
+  if (r>=20 && r<=29) { return R2.Priority(); } 
+  if (r>=30 && r<=39) { return R3.Priority(); } 
 return 0;}
 char * Name(unsigned r)
 {
-  if (r<=1) return R0.Name(r-0);
-  if (r>=2 && r<=3) return R1.Name(r-2);
-  if (r>=4 && r<=5) return R2.Name(r-4);
-  if (r>=6 && r<=7) return R3.Name(r-6);
+  if (r<=9) return R0.Name(r-0);
+  if (r>=10 && r<=19) return R1.Name(r-10);
+  if (r>=20 && r<=29) return R2.Name(r-20);
+  if (r>=30 && r<=39) return R3.Name(r-30);
   return NULL;
 }
 };
-const unsigned numrules = 8;
+const unsigned numrules = 40;
 
 /********************
   parameter
  ********************/
-#define RULES_IN_WORLD 8
+#define RULES_IN_WORLD 40
 
 
 /********************
@@ -1201,17 +1239,17 @@ public:
   void Code(unsigned short r)
   {
 {
-for(int mu_i = 1; mu_i <= 2; mu_i++) {
+for(int mu_i = 1; mu_i <= 10; mu_i++) {
 mu_p[mu_i].mu_UID = mu_i;
 mu_p[mu_i].mu_isLeader = mu_false;
 mu_p[mu_i].mu_state = mu_NON_PARTICIPANT;
 mu_p[mu_i].mu_elected.undefine();
 mu_channel[mu_i].mu_mtype = mu_EMPTY;
 mu_channel[mu_i].mu_elected.undefine();
-mu_startElection = mu_false;
 };
 };
 mu_leaderUID.undefine();
+mu_total_PARTICIPANT = 0;
   };
 
 };
@@ -1237,111 +1275,111 @@ unsigned short StartStateManager::numstartstates = 1;
 /********************
   Invariant records
  ********************/
-int mu__invariant_20() // Invariant "Elected leader has the same UID as global variable leaderUID"
+int mu__invariant_21() // Invariant "Elected leader has the same UID as global variable leaderUID"
 {
-bool mu__quant21; 
-mu__quant21 = TRUE;
+bool mu__quant22; 
+mu__quant22 = TRUE;
 {
-for(int mu_i = 1; mu_i <= 2; mu_i++) {
-bool mu__boolexpr22;
-  if (!(mu_p[mu_i].mu_isLeader)) mu__boolexpr22 = TRUE ;
+for(int mu_i = 1; mu_i <= 10; mu_i++) {
+bool mu__boolexpr23;
+  if (!(mu_p[mu_i].mu_isLeader)) mu__boolexpr23 = TRUE ;
   else {
-  mu__boolexpr22 = ((mu_i) == (mu_leaderUID)) ; 
+  mu__boolexpr23 = ((mu_i) == (mu_leaderUID)) ; 
 }
-if ( !(mu__boolexpr22) )
-  { mu__quant21 = FALSE; break; }
+if ( !(mu__boolexpr23) )
+  { mu__quant22 = FALSE; break; }
 };
 };
-return mu__quant21;
+return mu__quant22;
 };
 
-bool mu__condition_23() // Condition for Rule "Elected leader has the same UID as global variable leaderUID"
+bool mu__condition_24() // Condition for Rule "Elected leader has the same UID as global variable leaderUID"
 {
-  return mu__invariant_20( );
+  return mu__invariant_21( );
 }
 
 /**** end rule declaration ****/
 
-int mu__invariant_24() // Invariant "only one leader"
+int mu__invariant_25() // Invariant "Elected leader has highest UID among participants"
 {
-bool mu__quant25; 
-mu__quant25 = TRUE;
-{
-for(int mu_i = 1; mu_i <= 2; mu_i++) {
 bool mu__quant26; 
 mu__quant26 = TRUE;
 {
-for(int mu_j = 1; mu_j <= 2; mu_j++) {
+for(int mu_i = 1; mu_i <= 10; mu_i++) {
 bool mu__boolexpr27;
-  if (!((mu_i) != (mu_j))) mu__boolexpr27 = TRUE ;
+  if (!(mu_p[mu_i].mu_isLeader)) mu__boolexpr27 = TRUE ;
   else {
-bool mu__boolexpr28;
-  if (!(mu_p[mu_i].mu_isLeader)) mu__boolexpr28 = FALSE ;
+bool mu__quant28; 
+mu__quant28 = TRUE;
+{
+for(int mu_j = 1; mu_j <= 10; mu_j++) {
+bool mu__boolexpr29;
+  if (!((mu_p[mu_j].mu_state) == (mu_PARTICIPANT))) mu__boolexpr29 = TRUE ;
   else {
-  mu__boolexpr28 = (mu_p[mu_j].mu_isLeader) ; 
+  mu__boolexpr29 = ((mu_p[mu_j].mu_UID) <= (mu_p[mu_i].mu_UID)) ; 
 }
-  mu__boolexpr27 = (!(mu__boolexpr28)) ; 
+if ( !(mu__boolexpr29) )
+  { mu__quant28 = FALSE; break; }
+};
+};
+  mu__boolexpr27 = (mu__quant28) ; 
 }
 if ( !(mu__boolexpr27) )
   { mu__quant26 = FALSE; break; }
 };
 };
-if ( !(mu__quant26) )
-  { mu__quant25 = FALSE; break; }
-};
-};
-return mu__quant25;
+return mu__quant26;
 };
 
-bool mu__condition_29() // Condition for Rule "only one leader"
+bool mu__condition_30() // Condition for Rule "Elected leader has highest UID among participants"
 {
-  return mu__invariant_24( );
+  return mu__invariant_25( );
 }
 
 /**** end rule declaration ****/
 
-int mu__invariant_30() // Invariant "Elected leader has highest UID among participants"
+int mu__invariant_31() // Invariant "only one leader"
 {
-bool mu__quant31; 
-mu__quant31 = TRUE;
+bool mu__quant32; 
+mu__quant32 = TRUE;
 {
-for(int mu_i = 1; mu_i <= 2; mu_i++) {
-bool mu__boolexpr32;
-  if (!(mu_p[mu_i].mu_isLeader)) mu__boolexpr32 = TRUE ;
-  else {
+for(int mu_i = 1; mu_i <= 10; mu_i++) {
 bool mu__quant33; 
 mu__quant33 = TRUE;
 {
-for(int mu_j = 1; mu_j <= 2; mu_j++) {
+for(int mu_j = 1; mu_j <= 10; mu_j++) {
 bool mu__boolexpr34;
-  if (!((mu_p[mu_j].mu_state) == (mu_PARTICIPANT))) mu__boolexpr34 = TRUE ;
+  if (!((mu_i) != (mu_j))) mu__boolexpr34 = TRUE ;
   else {
-  mu__boolexpr34 = ((mu_p[mu_j].mu_UID) <= (mu_p[mu_i].mu_UID)) ; 
+bool mu__boolexpr35;
+  if (!(mu_p[mu_i].mu_isLeader)) mu__boolexpr35 = FALSE ;
+  else {
+  mu__boolexpr35 = (mu_p[mu_j].mu_isLeader) ; 
+}
+  mu__boolexpr34 = (!(mu__boolexpr35)) ; 
 }
 if ( !(mu__boolexpr34) )
   { mu__quant33 = FALSE; break; }
 };
 };
-  mu__boolexpr32 = (mu__quant33) ; 
-}
-if ( !(mu__boolexpr32) )
-  { mu__quant31 = FALSE; break; }
+if ( !(mu__quant33) )
+  { mu__quant32 = FALSE; break; }
 };
 };
-return mu__quant31;
+return mu__quant32;
 };
 
-bool mu__condition_35() // Condition for Rule "Elected leader has highest UID among participants"
+bool mu__condition_36() // Condition for Rule "only one leader"
 {
-  return mu__invariant_30( );
+  return mu__invariant_31( );
 }
 
 /**** end rule declaration ****/
 
 const rulerec invariants[] = {
-{"Elected leader has highest UID among participants", &mu__condition_35, NULL, },
-{"only one leader", &mu__condition_29, NULL, },
-{"Elected leader has the same UID as global variable leaderUID", &mu__condition_23, NULL, },
+{"only one leader", &mu__condition_36, NULL, },
+{"Elected leader has highest UID among participants", &mu__condition_30, NULL, },
+{"Elected leader has the same UID as global variable leaderUID", &mu__condition_24, NULL, },
 };
 const unsigned short numinvariants = 3;
 
@@ -1352,7 +1390,7 @@ const unsigned short numinvariants = 3;
 leaderUID:NoScalarset
 p:NoScalarset
 channel:NoScalarset
-startElection:NoScalarset
+total_PARTICIPANT:NoScalarset
 */
 
 /********************
@@ -1555,7 +1593,7 @@ void SymmetryClass::MultisetSort(state* s)
         mu_leaderUID.MultisetSort();
         mu_p.MultisetSort();
         mu_channel.MultisetSort();
-        mu_startElection.MultisetSort();
+        mu_total_PARTICIPANT.MultisetSort();
 }
 void SymmetryClass::Normalize(state* s)
 {
@@ -1587,6 +1625,14 @@ void mu_1_UIDs::SimpleLimit(PermSet& Perm) {};
 void mu_1_UIDs::ArrayLimit(PermSet& Perm) {};
 void mu_1_UIDs::Limit(PermSet& Perm) {};
 void mu_1_UIDs::MultisetLimit(PermSet& Perm)
+{ Error.Error("Internal: calling MultisetLimit for subrange type.\n"); };
+void mu_1_CNT::Permute(PermSet& Perm, int i) {};
+void mu_1_CNT::SimpleCanonicalize(PermSet& Perm) {};
+void mu_1_CNT::Canonicalize(PermSet& Perm) {};
+void mu_1_CNT::SimpleLimit(PermSet& Perm) {};
+void mu_1_CNT::ArrayLimit(PermSet& Perm) {};
+void mu_1_CNT::Limit(PermSet& Perm) {};
+void mu_1_CNT::MultisetLimit(PermSet& Perm)
 { Error.Error("Internal: calling MultisetLimit for subrange type.\n"); };
 void mu_1_MsgTypes::Permute(PermSet& Perm, int i) {};
 void mu_1_MsgTypes::SimpleCanonicalize(PermSet& Perm) {};
@@ -1640,7 +1686,7 @@ void mu_1__type_1::Permute(PermSet& Perm, int i)
 {
   static mu_1__type_1 temp("Permute_mu_1__type_1",-1);
   int j;
-  for (j=0; j<2; j++)
+  for (j=0; j<10; j++)
     array[j].Permute(Perm, i);
 };
 void mu_1__type_1::SimpleCanonicalize(PermSet& Perm)
@@ -1655,7 +1701,7 @@ void mu_1__type_2::Permute(PermSet& Perm, int i)
 {
   static mu_1__type_2 temp("Permute_mu_1__type_2",-1);
   int j;
-  for (j=0; j<2; j++)
+  for (j=0; j<10; j++)
     array[j].Permute(Perm, i);
 };
 void mu_1__type_2::SimpleCanonicalize(PermSet& Perm)
@@ -1695,9 +1741,9 @@ bool match(state* ns, StatePtr p)
               mu_channel.Permute(Perm,i);
               if (args->multiset_reduction.value)
                 mu_channel.MultisetSort();
-              mu_startElection.Permute(Perm,i);
+              mu_total_PARTICIPANT.Permute(Perm,i);
               if (args->multiset_reduction.value)
-                mu_startElection.MultisetSort();
+                mu_total_PARTICIPANT.MultisetSort();
             if (p.compare(workingstate)) {
               StateCopy(workingstate,&temp); return TRUE; }
           }
@@ -1719,9 +1765,9 @@ bool match(state* ns, StatePtr p)
           mu_channel.Permute(Perm,0);
           if (args->multiset_reduction.value)
             mu_channel.MultisetSort();
-          mu_startElection.Permute(Perm,0);
+          mu_total_PARTICIPANT.Permute(Perm,0);
           if (args->multiset_reduction.value)
-            mu_startElection.MultisetSort();
+            mu_total_PARTICIPANT.MultisetSort();
         if (p.compare(workingstate)) {
           StateCopy(workingstate,&temp); return TRUE; }
 
@@ -1739,9 +1785,9 @@ bool match(state* ns, StatePtr p)
               mu_channel.Permute(Perm,0);
               if (args->multiset_reduction.value)
                 mu_channel.MultisetSort();
-              mu_startElection.Permute(Perm,0);
+              mu_total_PARTICIPANT.Permute(Perm,0);
               if (args->multiset_reduction.value)
-                mu_startElection.MultisetSort();
+                mu_total_PARTICIPANT.MultisetSort();
             if (p.compare(workingstate)) {
               StateCopy(workingstate,&temp); return TRUE; }
           }
@@ -1757,7 +1803,7 @@ bool match(state* ns, StatePtr p)
       mu_leaderUID.MultisetSort();
       mu_p.MultisetSort();
       mu_channel.MultisetSort();
-      mu_startElection.MultisetSort();
+      mu_total_PARTICIPANT.MultisetSort();
       if (p.compare(workingstate)) {
         StateCopy(workingstate,&temp); return TRUE; }
       StateCopy(workingstate,&temp);
@@ -1821,9 +1867,9 @@ void SymmetryClass::Exhaustive_Fast_Canonicalize(state* s)
     if (Perm.In(i))
       {
         StateCopy(workingstate, &temp);
-        mu_startElection.Permute(Perm,i);
+        mu_total_PARTICIPANT.Permute(Perm,i);
         if (args->multiset_reduction.value)
-          mu_startElection.MultisetSort();
+          mu_total_PARTICIPANT.MultisetSort();
         SetBestResult(i, workingstate);
       }
   StateCopy(workingstate, &BestPermutedState);
